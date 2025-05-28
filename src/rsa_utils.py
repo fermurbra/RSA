@@ -1,7 +1,10 @@
 def extended_euclidean(a, b):
+
+    """Calculate the gcd(a,b) and solve the equation ax + by = gcd(a,b) using the Extended Euclidean Algorithm"""
     lista_pasos = []
-    a = abs(a)
-    b = abs(b)
+    
+    if a < b:
+        a, b = b, a
 
     while b != 0:
         q = a // b
@@ -24,7 +27,9 @@ def extended_euclidean(a, b):
 
 
 
-def mod_inverse(e, phi):
+def modulo_inverse(e, phi):
+
+    """Calculate the modular inverse of e modulo phi"""
     gcd_value, x, y = extended_euclidean(e, phi)
     if gcd_value != 1:
         raise ValueError("Modular inverse does not exist")
@@ -32,10 +37,12 @@ def mod_inverse(e, phi):
 
 def text_to_number(text):
 
+    """Calculate the number in ascii of a text"""
     return int.from_bytes(text.encode("utf-8"), byteorder="big")
 
 def number_to_text(number):
-    
+
+    """Calculate the ascii text from a number"""
     num_bytes = (number.bit_length() + 7) // 8
     try:
         return number.to_bytes(num_bytes, byteorder="big").decode("utf-8")
@@ -44,6 +51,7 @@ def number_to_text(number):
 
 def is_prime(n):
 
+    """Check if a number is prime"""
     if n <= 1:
         return False
     if n <= 3:
@@ -62,7 +70,7 @@ def is_prime(n):
 
 
 def main():
-    # Ejemplo de uso de las funciones
+    # Example usage of the functions
     a = 30
     b = 21
     gcd, x, y = extended_euclidean(a, b)
@@ -70,7 +78,7 @@ def main():
 
     e = 7
     phi = 40
-    inv = mod_inverse(e, phi)
+    inv = modulo_inverse(e, phi)
     print(f"Inverse of {e} mod {phi} is {inv}")
 
     text = "Hello"
