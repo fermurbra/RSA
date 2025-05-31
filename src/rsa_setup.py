@@ -1,29 +1,23 @@
-# rsa_setup.py
-
-import random
-import secrets
 import math
-from itertools import compress
-from rsa_utils import mod_inverse, is_prime, prim_num_find
+from rsa_utils import modulo_inverse, find_prime
 
 
 def setup_rsa(digits):
-    """
-    Genera claves RSA:
-    - Dos primos aleatorios p y q
-    - Clave pública: (e, N)
-    - Clave privada: (d, N)
-    """
-    p = prim_num_find(digits)
-    q = prim_num_find(digits)
-    while q == p:
-        q = prim_num_find(digits)
+    
+    """ Generate RSA parameters: two distinct prime numbers p and q, modulus N, public exponent e, private exponent d, and Euler's totient phi"""
 
+    # Find two distinct prime numbers p and q with the specified number of digits
+    p = find_prime(digits)
+    q = find_prime(digits)
+    while q == p:
+        q = find_prime(digits)
+
+    # Calculate N and phi
     N = p * q
     phi = (p - 1) * (q - 1)
 
     
-    # Elige e = 65537 si es válido, si no, busca otro impar pequeño
+    # Choose e such that 1 < e < phi and gcd(e, phi) = 1   For example, e can be 65537, which is a common choice.
     if 1 < 65537 < phi and math.gcd(65537, phi) == 1:
         e = 65537
     else:
@@ -38,7 +32,8 @@ def setup_rsa(digits):
         while math.gcd(e, phi) != 1:
             e += 2
 
-    d = mod_inverse(e, phi)
+    # Calculate the modular inverse of e modulo phi to find d
+    d = modulo_inverse(e, phi)
 
     print(f"p   = {p}")
     print(f"q   = {q}")
