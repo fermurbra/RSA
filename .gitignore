@@ -4,6 +4,4 @@ __pycache__/
 *.pyc
 *.spec
 
-# Ignorar archivos ejecutables si no quieres subirlos
-# main.exe
-rsa_main.py
+
