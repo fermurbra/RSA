@@ -35,6 +35,9 @@ def send_message():
     mensaje = input("Write your message: ").strip()
     e, N = users[receiver]['public_key']
     encrypted = encrypt(mensaje, e, N)
+    if type(encrypted) is str:
+        print("The message could not be encrypted. Please check the input values.")
+        return None
     users[receiver]['last_message'] = encrypted
     users[receiver]['from'] = emitter
     print(f"The message was encrypted and sent {encrypted}")
@@ -51,9 +54,37 @@ def read_message():
     decrypted = decrypt(encrypted, d, N)
     print(f"\n Messagee from {users[receiver]['from']}: {decrypted}")
 
+def encrypt_message():
+    print("Encrypt a message for another user")
+    print("You will need the public key and the modulo of the user to encrypt the message")
+    n = input("Enter the modulo N: ").strip()
+    e = input("Enter the public exponent e: ").strip()
+    message = input("Enter the message to encrypt: ").strip()
+    if not n.isdigit() or not e.isdigit():
+        print("N and e must be integers")
+        return None
+    encrypted_message = encrypt(message, int(e), int(n))
+    print(f"\n Message encrypted: {encrypted_message}")
+
+def decrypt_message():
+    print("Decrypt a message for another user")
+    print("You will need the private key and the modulo of the user to decrypt the message")
+    n = input("Enter the modulo N: ").strip()
+    d = input("Enter the private exponent d: ").strip()
+    if not n.isdigit() or not d.isdigit():
+        print("N and d must be integers")
+        return None
+    message = input("Enter the message to decrypt: ").strip()
+    decrypted_message = decrypt(message, int(d), int(n))
+    print(f"\n Message decrypted: {decrypted_message}")
+
+
+
 def menu():
     print("\n Welcome to the RSA Messaging System")
     print("1. Create a new user")
     print("2. Send a message")
     print("3. Read a message")
-    print("4. Exit")
+    print("4. Encrypt a message")
+    print("5. Decrypt a message")
+    print("6. Exit")

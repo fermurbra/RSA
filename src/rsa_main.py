@@ -1,4 +1,4 @@
-from rsa_user import create_user, select_user, send_message, read_message, menu
+from rsa_user import create_user, select_user, send_message, read_message, encrypt_message, decrypt_message, menu
 
 import sys
 
@@ -13,6 +13,10 @@ def main():
         elif option == '3':
             read_message()
         elif option == '4':
+            encrypt_message()
+        elif option == '5':
+            decrypt_message()
+        elif option == '6':
             print("Exiting the RSA Messaging System")
             input("Press Enter to exit...")
             sys.exit()
